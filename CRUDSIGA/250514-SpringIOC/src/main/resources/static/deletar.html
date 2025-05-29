@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Deletar</title>
+    <link rel="stylesheet" href="style4.css">
+</head>
+
+<body>
+<h1> Deletar Aluno</h1>
+<form id="deletarForm">
+    <label>ID do Usuario: <input type="number" id="id" required></label><br><br>
+    <button type="submit">DELETAR</button>
+</form>
+
+<script>
+    document.getElementById("deletarForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("id").value;
+
+        const response = await fetch(`/api/v1/usuarios/${id}`, {
+            method: "DELETE"
+        });
+
+        if(response.status === 204){
+            alert("Usuario Deletado com Sucesso!");
+            document.getElementById("deletarForm").reset();
+        }
+        else{
+            alert("Erro ao Deletar Aluno");
+        }
+    });
+</script>
+
+</body>
+
+</html>

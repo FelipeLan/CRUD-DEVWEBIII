@@ -1,0 +1,63 @@
+/* style4.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+    margin: 40px auto;
+    max-width: 450px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #397ee6;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    color: #555;
+}
+
+input[type="number"] {
+    padding: 10px 12px;
+    margin-top: 8px;
+    border: 2px solid #397ee6;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+    border-color: #397ee6;
+    outline: none;
+}
+
+button {
+    padding: 12px;
+    background-color: #397ee6;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #397ee6;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Aluno</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+<h1>Editar Aluno</h1>
+
+<form id="loginForm">
+    <label>Usuário: <input type="text" id="loginUsuario" required></label>
+    <label>Senha: <input type="password" id="loginPassword" required></label>
+    <button type="submit">Buscar Usuário</button>
+</form>
+
+<form id="editarForm" class="formulario">
+    <label>Usuário: <input type="text" id="usuario" required></label>
+    <label>Nome: <input type="text" id="nome" required></label>
+    <label>Email: <input type="email" id="email" required></label>
+    <label>Senha: <input type="password" id="password" required></label>
+    <label>Curso: <input type="text" id="curso" required></label>
+    <label>Telefone: <input type="text" id="telefone" required></label>
+    <label>Disciplina: <input type="text" id="disciplina" required></label>
+    <label>Status: <input type="text" id="status" required></label>
+    <label>Nota 1: <input type="number" id="nota1" required></label>
+    <label>Nota 2: <input type="number" id="nota2" required></label>
+    <button type="submit">ATUALIZAR</button>
+</form>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const usuario = document.getElementById("loginUsuario").value;
+        const password = document.getElementById("loginPassword").value;
+
+        try {
+            const response = await fetch(`/api/v1/usuarios/login?usuario=${encodeURIComponent(usuario)}&password=${encodeURIComponent(password)}`);
+            if (!response.ok) throw new Error("Usuário ou senha inválidos");
+
+            const aluno = await response.json();
+
+            // Preencher o formulário de edição com os dados recebidos
+            document.getElementById("usuario").value = aluno.usuario;
+            document.getElementById("nome").value = aluno.nome;
+            document.getElementById("email").value = aluno.email;
+            document.getElementById("password").value = aluno.password;
+            document.getElementById("curso").value = aluno.curso;
+            document.getElementById("telefone").value = aluno.telefone;
+            document.getElementById("disciplina").value = aluno.disciplina;
+            document.getElementById("status").value = aluno.status;
+            document.getElementById("nota1").value = aluno.nota1;
+            document.getElementById("nota2").value = aluno.nota2;
+
+            // Mostrar o formulário de edição e esconder o de login
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("editarForm").style.display = "block";
+
+            // Salve o id para usar na hora de atualizar
+            window.alunoId = aluno.id;
+
+        } catch (err) {
+            alert(err.message);
+        }
+    });
+
+    // Atualização do formulário continua a mesma, mas usa window.alunoId no endpoint PUT
+    document.getElementById("editarForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const aluno = {
+            usuario: document.getElementById("usuario").value,
+            nome: document.getElementById("nome").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            curso: document.getElementById("curso").value,
+            telefone: document.getElementById("telefone").value,
+            disciplina: document.getElementById("disciplina").value,
+            status: document.getElementById("status").value,
+            nota1: parseFloat(document.getElementById("nota1").value),
+            nota2: parseFloat(document.getElementById("nota2").value)
+        };
+
+        const response = await fetch(`/api/v1/usuarios/${window.alunoId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(aluno)
+        });
+
+        if (response.ok) {
+            alert("Usuário atualizado com sucesso!");
+            // opcional: resetar ou voltar ao formulário de login
+        } else {
+            alert("Erro ao atualizar usuário.");
+        }
+    });
+</script>
+</body>
+
+</html>

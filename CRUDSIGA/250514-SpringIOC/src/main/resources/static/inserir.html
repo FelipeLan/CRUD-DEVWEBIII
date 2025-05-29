@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inserir</title>
+    <link rel="stylesheet" href="style1.css">
+    <style>
+        body{
+            font-family: monospace, sans-serif;
+            margin: 20px;
+        }
+        nav{
+            background-color: #FF0000;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        nav a{
+            text-decoration: none;
+            color:  #F3F3F3;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #000000
+        }
+
+        label{
+            width: 100%;
+            display: block;
+        }
+        input{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<h1> Inserir Aluno </h1>
+<div >
+    <form class="formulario" id="inserirForm">
+        <label> Usuario: <input type="text" id="usuario" required></label><br><br>
+        <label> Nome: <input type="text" id="nome" required></label><br><br>
+        <label> Email: <input type="email" id="email" required></label><br><br>
+        <label> Senha: <input type="password" id="password" required></label><br><br>
+        <label> Curso: <input type="text" id="curso" required></label><br><br>
+        <label> Telefone: <input type="text" id="telefone" required></label><br><br>
+        <label> Disciplina: <input type="text" id="disciplina" required></label><br><br>
+        <label>Status:
+            <select id="status" required>
+                <option value="">Selecione o status</option>
+                <option value="Cursando">Cursando</option>
+                <option value="Trancado">Trancado</option>
+                <option value="Formado">Formado</option>
+            </select>
+        </label><br><br>
+        <label> Nota 1: <input type="number" id="nota1" required></label><br><br>
+        <label> Nota 2: <input type="number" id="nota2" required></label><br><br>
+        <button type="submit"> INSERIR </button>
+    </form>
+</div>
+<script>
+    document.getElementById("inserirForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const usuario = document.getElementById("usuario").value;
+        const nome = document.getElementById("nome").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const curso = document.getElementById("curso").value;
+        const telefone = document.getElementById("telefone").value;
+        const nota1 = document.getElementById("nota1").value;
+        const disciplina = document.getElementById("disciplina").value;
+        const nota2 = document.getElementById("nota2").value;
+        const status = document.getElementById("status").value;
+
+
+        const aluno = {usuario, nome, email, password, telefone, curso, disciplina, status, nota1, nota2};
+
+        const response = await fetch("api/v1/usuarios", {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(aluno)
+        });
+
+        if(response.ok){
+            alert("Usuario Inserido com Sucesso!");
+            document.getElementById("inserirForm").reset();
+        }else{
+            alert("Erro ao Inserir Usuarios");
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

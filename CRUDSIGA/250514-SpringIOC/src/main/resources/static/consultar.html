@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultar Alunos</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+<h1>Lista de Alunos</h1>
+<button id="btnListar">Carregar Alunos</button>
+
+<table id="tabelaAlunos" style="display: none;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Curso</th>
+        <th>Disciplina</th>
+        <th>Status</th>
+        <th>Nota 1</th>
+        <th>Nota 2</th>
+        <th>Média</th>
+    </tr>
+    </thead>
+    <tbody id="listaAlunos">
+    <!-- Alunos inseridos por JS -->
+    </tbody>
+</table>
+
+<p id="mensagem" class="no-data"></p>
+
+<script>
+    document.getElementById("btnListar").addEventListener("click", async () => {
+        const response = await fetch("/api/v1/usuarios");
+        const lista = document.getElementById("listaAlunos");
+        const tabela = document.getElementById("tabelaAlunos");
+        const mensagem = document.getElementById("mensagem");
+        lista.innerHTML = "";
+        mensagem.textContent = "";
+
+        if (response.ok) {
+            const alunos = await response.json();
+            if (alunos.length === 0) {
+                tabela.style.display = "none";
+                mensagem.textContent = "Nenhum aluno cadastrado.";
+            } else {
+                tabela.style.display = "table";
+                alunos.forEach(aluno => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${aluno.id}</td>
+                        <td>${aluno.nome}</td>
+                        <td>${aluno.email}</td>
+                        <td>${aluno.telefone}</td>
+                        <td>${aluno.curso}</td>
+                        <td>${aluno.disciplina}</td>
+                        <td>${aluno.status}</td>
+                        <td>${aluno.nota1}</td>
+                        <td>${aluno.nota2}</td>
+                        <td>${aluno.media}</td>
+                    `;
+                    lista.appendChild(tr);
+                });
+            }
+        } else {
+            alert("Erro ao carregar alunos.");
+        }
+    });
+</script>
+</body>
+</html>
